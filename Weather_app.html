@@ -1,0 +1,126 @@
+<html>
+<head>
+<title></title>
+
+<style type = "type/css">
+
+
+
+
+
+
+
+
+<style>
+<!-- to load jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+$(document).ready( function() {
+
+// api key goes here
+
+	var apikey = "c600df51350475bdc178e8c298386c4c";
+	var search key ="";
+	var location = "";
+	
+	$("#Submit").click(function)(){
+			
+		var location = $("#location").val();
+		// check if zip code or city
+		
+		if (!isNaN(location)) {
+		
+			searchKey= "zip"
+			
+		} else {
+			searchkey = "q"
+			
+		}
+		// check if text area had data
+		
+		if(location != "") {
+			$.ajax({
+	
+				url: 'http://api.openweathermap.org/data/2.5/weather?' +
+					searchkey + ' = ' + location + '&units=imperial&appid=' + apikey,
+				datatype:"jsonp",
+				type:"GET",
+				
+				success:function(data){
+					var result = output data(data);
+					$("#outputdata").html(result);
+					$("#outputdata").val('');
+					
+				}
+			})
+		}
+	
+	})
+
+	// output area 
+	
+	function {
+		// return the html string of all the data wanted
+		return "<div><h2>Weather in " + data.name + "</h2>" +
+		"<img src= 'http://openweathermap.org/img/w" + data.weather[0].icon + ".png' width=100px>" +
+		"<h2> Weather: " + data.weather[0].main + "<br>" +
+		"Description: " + data.weather[0].description + "<br>" +
+		"Temperature: " + data.main.temp + "F <br> " +
+		"Low temp: " + data.main.temp_min + "F <br> " +
+		"High temp: " + data.main.temp_max + "F <br> " +
+		"Pressure: " + data.min.pressure + "hpa <br> " +
+		"Humidity: " + data.main.humidity + "%<br>" +
+		"Visibility: " + data.visibility + "meters <br>" +
+		"Wind speed: " + data.wind.speed + "m/sec <br>" +
+		"Wind direction: " + data.wind.dir + " degrees </h2></div>";
+		
+		
+	}
+
+
+} ); // ends document.ready
+
+</script>
+
+</head>
+<body>
+
+
+<div id="pagewrap">
+
+	<div id="content">
+	
+		<div id="header">
+			Chigozie Weather app
+		</div>
+	
+		<div id="formwrap">
+		
+			<form>
+					<div id="formtext">Enter city or zip code</div>
+					
+					<input type="text" value="New York" name="location" id= "location">
+					
+					<div style="margin-top:20px;">
+					
+						<input type= "button" value= "show weather" id ="Weather button">
+					
+					</div>
+					
+					<button type="submit">Submit</button>
+					
+			</form>
+			
+		</div> <!-- ends div#formwrap -->
+		
+		<div id="output"></div>
+		
+	</div> <!-- ends div#content -->
+
+</div> <!-- ends div#pagewrap -->
+
+
+</body>
+</html>
