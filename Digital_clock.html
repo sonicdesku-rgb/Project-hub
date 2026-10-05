@@ -4,23 +4,28 @@
 <title>Digital Clock</title>
 <style type="text/css">
     :root {
-        --bg-color: #3181af;
-        --text-color: #1f1d1d;
-        --button-bg: #f0f0f0;
-        --button-text: #1a1a1a;
+        --text-color: #bdb5b5;
+        --button-text: #dfcece;
+        --gradient-start: #08001f;
+        --gradient-end: #30197d;
     }
 
     body.dark-mode {
-        --bg-color: #1a1a1a;
         --text-color: #f0f0f0;
         --button-bg: #333333;
         --button-text: #f0f0f0;
+        --gradient-start: #1a1a1a;
+        --gradient-end: #333333;
+       
     }
 
     body {
+        margin: 0;
+        min-height: 100vh;
         font-family: Arial, sans-serif;
         text-align: center;
         background-color: var(--bg-color);
+        background-image: linear-gradient(to bottom right, var(--gradient-start), var(--gradient-end));
         color: var(--text-color);
         transition: background-color 0.3s ease, color 0.3s ease;
     }
