@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Digital Clock</title>
+<style type="text/css">
+    :root {
+        --bg-color: #3181af;
+        --text-color: #1f1d1d;
+        --button-bg: #f0f0f0;
+        --button-text: #1a1a1a;
+    }
+
+    body.dark-mode {
+        --bg-color: #1a1a1a;
+        --text-color: #f0f0f0;
+        --button-bg: #333333;
+        --button-text: #f0f0f0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+        margin-top: 50px;
+    }
+
+    #clock {
+        font-size: 48px;
+        margin: 20px 0;
+    }
+
+    #date {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .controls {
+        margin-top: 20px;
+    }
+
+    button {
+        background-color: var(--button-bg);
+        color: var(--button-text);
+        border: 1px solid var(--text-color);
+        padding: 8px 16px;
+        cursor: pointer;
+        margin: 0 5px;
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    var is24Hour = false;
+
+    function updateClock() {
+        var now = new Date();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        var ampm = '';
+
+        if (is24Hour) {
+            hours = String(hours).padStart(2, '0');
+        } else {
+            ampm = hours >= 12 ? 'PM' : 'AM';
+            if (hours > 12) {
+                hours -= 12;
+            } else if (hours === 0) {
+                hours = 12;
+            }
+            hours = String(hours).padStart(2, '0');
+        }
+
+        minutes = String(minutes).padStart(2, '0');
+        seconds = String(seconds).padStart(2, '0');
+
+        $('#clock').text(hours + ':' + minutes + ':' + seconds + ' ' + ampm);
+
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        $('#date').text(now.toLocaleDateString(undefined, options));
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Toggle 12/24 hour format
+    $('#formatBtn').on('click', function() {
+        is24Hour = !is24Hour;
+        $(this).text(is24Hour ? '12 Hour' : '24 Hour');
+        updateClock();
+    });
+
+    // Toggle dark mode
+    $('#themeBtn').on('click', function() {
+        $('body').toggleClass('dark-mode');
+        var isDark = $('body').hasClass('dark-mode');
+        $(this).text(isDark ? 'Light Mode' : 'Dark Mode');
+    });
+});
+</script>
+</head>
+<body>
+
+    <main class="container">
+
+        <h1>Digital Clock</h1>
+
+        <div id="clock">
+            00:00:00
+        </div>
+
+        <div id="date">
+            Monday, January 1, 2026
+        </div>
+
+        <div class="controls">
+            <button id="formatBtn">
+                24 Hour
+            </button>
+
+            <button id="themeBtn">
+                Dark Mode
+            </button>
+        </div>
+
+    </main>
+
+</body>
+</html>
