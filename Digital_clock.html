@@ -3,13 +3,13 @@
 <head>
 <title>Digital Clock</title>
 <style type="text/css">
-      :root {
+       :root {
         --text-color: #e8e4f5;
         --button-text: #e8e4f5;
         --button-bg: rgba(255, 255, 255, 0.12);
         --gradient-start: #08001f;
         --gradient-end: #30197d;
-        --box-bg: #1f1458;
+        --box-bg: rgba(255, 255, 255, 0.08);
         --accent: #8f7bff;
         --orb-1: #6a4cff;
         --orb-2: #ff5fa2;
@@ -21,7 +21,7 @@
         --button-text: #f0f0f0;
         --gradient-start: #111111;
         --gradient-end: #2b2b2b;
-        --box-bg: #1a1a1a;
+        --box-bg: rgba(0, 0, 0, 0.35);
         --accent: #9aa0a6;
         --orb-1: #444444;
         --orb-2: #666666;
@@ -85,6 +85,8 @@
         background: var(--box-bg);
         border: 1px solid rgba(255, 255, 255, 0.18);
         border-radius: 24px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
         overflow: hidden;
     }
@@ -97,7 +99,7 @@
         left: 15%;
         width: 70%;
         height: 3px;
-        background: background: linear-gradient(to right, transparent, var(--accent), transparent);
+        background: linear-gradient(to right, transparent, var(--accent), transparent);
     }
 
     h1 {
