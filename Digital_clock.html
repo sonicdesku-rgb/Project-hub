@@ -3,73 +3,153 @@
 <head>
 <title>Digital Clock</title>
 <style type="text/css">
-    :root {
-        --text-color: #bdb5b5;
-        --button-text: #dfcece;
+      :root {
+        --text-color: #e8e4f5;
+        --button-text: #e8e4f5;
+        --button-bg: rgba(255, 255, 255, 0.12);
         --gradient-start: #08001f;
         --gradient-end: #30197d;
+        --box-bg: rgba(255, 255, 255, 0.08);
+        --accent: #8f7bff;
+        --orb-1: #6a4cff;
+        --orb-2: #ff5fa2;
     }
 
     body.dark-mode {
         --text-color: #f0f0f0;
-        --button-bg: #333333;
+        --button-bg: rgba(255, 255, 255, 0.08);
         --button-text: #f0f0f0;
-        --gradient-start: #1a1a1a;
-        --gradient-end: #333333;
-       
+        --gradient-start: #111111;
+        --gradient-end: #2b2b2b;
+        --box-bg: rgba(0, 0, 0, 0.35);
+        --accent: #9aa0a6;
+        --orb-1: #444444;
+        --orb-2: #666666;
     }
 
     body {
         margin: 0;
         min-height: 100vh;
+        display: flex;
         justify-content: center;
         align-items: center;
+        overflow: hidden;
         font-family: Arial, sans-serif;
         text-align: center;
-        background-color: var(--bg-color);
         background-image: linear-gradient(to bottom right, var(--gradient-start), var(--gradient-end));
         color: var(--text-color);
-        transition: background-color 0.3s ease, color 0.3s ease;
+        transition: color 0.3s ease;
     }
 
+    /* Decorative glowing orbs behind the card */
+    .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(70px);
+        opacity: 0.55;
+        animation: float 9s ease-in-out infinite;
+        transition: background 0.3s ease;
+    }
+
+    .orb-1 {
+        width: 320px;
+        height: 320px;
+        background: var(--orb-1);
+        top: 12%;
+        left: 12%;
+    }
+
+    .orb-2 {
+        width: 260px;
+        height: 260px;
+        background: var(--orb-2);
+        bottom: 10%;
+        right: 14%;
+        animation-delay: -4s;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50%      { transform: translateY(-30px); }
+    }
+
+    /* The centered card */
     .container {
-        width: 800px;
-        max-width: 100%;
-        padding: 30px;
+        position: relative;
+        z-index: 1;
+        width: 600px;
+        max-width: 90%;
         box-sizing: border-box;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        
+        padding: 40px 30px;
+        margin-bottom: 60px;          /* raise or lower the card */
+        background: var(--box-bg);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 24px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+        overflow: hidden;
+    }
+
+    /* Glowing accent line across the top of the card */
+    .container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 15%;
+        width: 70%;
+        height: 3px;
+        background: linear-gradient;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: normal;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        opacity: 0.75;
     }
 
     #clock {
-        font-size: 48px;
-        margin: 20px 0;
-        
+        font-size: 64px;
+        font-weight: bold;
+        font-variant-numeric: tabular-nums;   /* digits stay the same width, no jitter */
+        margin: 20px 0 10px;
+        text-shadow: 0 0 20px var(--accent);
+    }
+
+    /* Divider line between clock and date */
+    .divider {
+        width: 60px;
+        height: 2px;
+        margin: 0 auto 15px;
+        background: var(--accent);
+        border-radius: 2px;
     }
 
     #date {
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
-
-    .controls {
-        margin-top: 20px;
+        font-size: 20px;
+        margin-bottom: 25px;
+        opacity: 0.85;
     }
 
     button {
         background-color: var(--button-bg);
         color: var(--button-text);
-        border: 1px solid var(--text-color);
-        padding: 8px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 999px;
+        padding: 10px 22px;
+        margin: 0 6px;
         cursor: pointer;
-        margin: 05px;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+        background-color: rgba(255, 255, 255, 0.22);
+        transform: translateY(-2px);
     }
 </style>
-
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
